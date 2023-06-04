@@ -1,27 +1,22 @@
-gcc-12:
-  version:
-    - 12
+gcc:
   cpp:
-    - /home/jhale/spack/opt/spack/linux-amzn2-neoverse_v1/gcc-7.3.1/gcc-12.2.0-huc2sescmw646r26mnp2vgu54rybd4kr/bin/g++ 
+    - g++
   cc:
-    - /home/jhale/spack/opt/spack/linux-amzn2-neoverse_v1/gcc-7.3.1/gcc-12.2.0-huc2sescmw646r26mnp2vgu54rybd4kr/bin/gcc
+    - gcc
   flags:
     - -Ofast -march=armv8.4-a+sve -mtune=neoverse-512tvb -msve-vector-bits=256
     - -Ofast -march=armv8.4-a+sve -mtune=neoverse-512tvb -msve-vector-bits=scalable
     - -Ofast -march=armv8.4-a+sve -mtune=neoverse-512tvb -fno-tree-vectorize
-    - -O2 -march=armv8.4-a+sve -mtune=neoverse-512tvb
     - -O2
       
-clang-15:
-  version:
-    - 15
+clang:
   cc: 
-    - /home/jhale/spack/opt/spack/linux-amzn2-neoverse_v1/gcc-12.2.0/llvm-15.0.7-yogi5jj4qamtiwozx7tj7b3imdf3nsku/bin/clang
+    - clang
   cpp: 
-    - /home/jhale/spack/opt/spack/linux-amzn2-neoverse_v1/gcc-12.2.0/llvm-15.0.7-yogi5jj4qamtiwozx7tj7b3imdf3nsku/bin/clang++
+    - clang++
   flags:
     - -Ofast -march=armv8.4-a+sve -mtune=neoverse-512tvb -mprefer-vector-width=256
     - -Ofast -march=armv8.4-a+sve -mtune=neoverse-512tvb
-    - -Ofast -march=armv8.4-a+sve -mtune=neoverse-512tvb -fno-slp-vectorize
+    - -Ofast -march=armv8.4-a+sve -mtune=neoverse-512tvb -fno-slp-vectorize -fno-vectorize
     - -O2 -march=armv8.4-a+sve -mtune=neoverse-512tvb
     - -O2
