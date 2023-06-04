@@ -3,7 +3,7 @@ from ffcx.codegeneration.backend import FFCXBackend
 from ffcx.analysis import analyze_ufl_objects
 from ffcx.ir.representation import compute_ir
 from ffcx.codegeneration.integrals import IntegralGenerator
-from ffcx.element_interface import create_element
+from ffcx.element_interface import convert_element
 from ffcx.codegeneration.C.format_lines import format_indented_lines
 from ffcx.options import get_options
 import basix
@@ -146,7 +146,7 @@ def generate_code(action, scalar_type, global_size, batch_size):
             [problem.a], parameters).form_data[0].num_coefficients
         rank = 2
 
-    element = create_element(problem.element)
+    element = convert_element(problem.element)
     num_nodes = element.cell().num_vertices()
     geom_type = scalar_type.replace(' _Complex', '')
 
