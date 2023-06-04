@@ -4,9 +4,9 @@ gcc:
   cc:
     - gcc
   flags:
-    - -Ofast -march=armv8.4-a+sve -mtune=neoverse-512tvb -msve-vector-bits=256
-    - -Ofast -march=armv8.4-a+sve -mtune=neoverse-512tvb -msve-vector-bits=scalable
-    - -Ofast -march=armv8.4-a+sve -mtune=neoverse-512tvb -fno-tree-vectorize
+    - -Ofast -march=native -mtune=native
+    - -Ofast -march=native -mtune=native -fno-tree-vectorize
+    - -O2 -march=native -mtune=native
     - -O2
       
 clang:
@@ -15,8 +15,7 @@ clang:
   cpp: 
     - clang++
   flags:
-    - -Ofast -march=armv8.4-a+sve -mtune=neoverse-512tvb -mprefer-vector-width=256
-    - -Ofast -march=armv8.4-a+sve -mtune=neoverse-512tvb
-    - -Ofast -march=armv8.4-a+sve -mtune=neoverse-512tvb -fno-slp-vectorize -fno-vectorize
-    - -O2 -march=armv8.4-a+sve -mtune=neoverse-512tvb
+    - -Ofast -march=native -mtune=native
+    - -Ofast -march=native -mtune=native -fno-slp-vectorize -fno-vectorize
+    - -O2 -march=native -mtune=native
     - -O2
