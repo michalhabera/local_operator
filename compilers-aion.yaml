@@ -1,0 +1,19 @@
+gcc:
+  cpp:
+    - g++
+  cc:
+    - gcc
+  flags:
+    - -Ofast -march=native -mtune=native
+    - -Ofast -march=native -mtune=native -fno-tree-vectorize
+    - -O2
+      
+clang:
+  cc: 
+    - clang
+  cpp: 
+    - clang++
+  flags:
+    - -Ofast -march=native -mtune=native
+    - -Ofast -march=native -mtune=native -fno-slp-vectorize -fno-vectorize
+    - -O2
