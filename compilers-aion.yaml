@@ -4,8 +4,8 @@ gcc:
   cc:
     - gcc
   flags:
-    - -Ofast -march=native -mtune=native
-    - -Ofast -march=native -mtune=native -fno-tree-vectorize
+    - -Ofast -march=znver2 -mtune=znver2
+    - -Ofast -march=znver2 -mtune=znver2 -fno-tree-vectorize
     - -O2
       
 clang:
@@ -14,6 +14,6 @@ clang:
   cpp: 
     - clang++
   flags:
-    - -Ofast -march=native -mtune=native
-    - -Ofast -march=native -mtune=native -fno-slp-vectorize -fno-vectorize
+    - -Ofast -march=znver2 -mtune=znver2
+    - -Ofast -march=znver2 -mtune=znver2 -fno-slp-vectorize -fno-vectorize
     - -O2
