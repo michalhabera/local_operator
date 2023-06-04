@@ -6,7 +6,6 @@ gcc:
   flags:
     - -Ofast -march=native -mtune=native
     - -Ofast -march=native -mtune=native -fno-tree-vectorize
-    - -O2 -march=native -mtune=native
     - -O2
       
 clang:
@@ -17,5 +16,4 @@ clang:
   flags:
     - -Ofast -march=native -mtune=native
     - -Ofast -march=native -mtune=native -fno-slp-vectorize -fno-vectorize
-    - -O2 -march=native -mtune=native
     - -O2
