@@ -6,7 +6,7 @@ gcc:
   flags:
     - -Ofast -mcpu=neoverse-v1
     - -Ofast -mcpu=neoverse-v1 -fno-tree-vectorize
-    - -O2
+    - -O2 -fno-tree-vectorize
       
 clang:
   cc: 
@@ -16,4 +16,4 @@ clang:
   flags:
     - -Ofast -mcpu=neoverse-v1
     - -Ofast -mcpu=neoverse-v1 -fno-slp-vectorize -fno-vectorize
-    - -O2
+    - -O2 -fno-slp-vectorize -fno-vectorize
