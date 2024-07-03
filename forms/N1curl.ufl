@@ -1,11 +1,12 @@
 from ufl import *
+import basix.ufl
 
-element = FiniteElement("N1curl", tetrahedron, $degree)
-coord_element = VectorElement("Lagrange", tetrahedron, 1)
+element = basix.ufl.element("N1curl", basix.CellType.tetrahedron, $degree)
+coord_element = basix.ufl.element("Lagrange", basix.CellType.tetrahedron, 1, shape=(3,))
 mesh = Mesh(coord_element)
 
 V = FunctionSpace(mesh, element)
-W = FunctionSpace(mesh, FiniteElement("Lagrange", tetrahedron, 1))
+W = FunctionSpace(mesh, basix.ufl.element("Lagrange", basix.CellType.tetrahedron, 1))
 
 u = TrialFunction(V)
 v = TestFunction(V)

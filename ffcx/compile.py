@@ -2,11 +2,9 @@
 from ffcx.codegeneration.backend import FFCXBackend
 from ffcx.analysis import analyze_ufl_objects
 from ffcx.ir.representation import compute_ir
-from ffcx.codegeneration.integrals import IntegralGenerator
-from ffcx.element_interface import convert_element
-from ffcx.codegeneration.C.format_lines import format_indented_lines
+from ffcx.codegeneration.integral_generator import IntegralGenerator
+from ffcx.codegeneration.C.c_implementation import CFormatter
 from ffcx.options import get_options
-import basix
 import ufl
 import typing
 import problem
@@ -79,13 +77,15 @@ using namespace std;
 """
 
 
-def compute_integral_body(ir, backend):
+def compute_integral_body(ir, backend, scalar_type):
     # Configure kernel generator
     ig = IntegralGenerator(ir, backend)
     # Generate code ast for the tabulate_tensor body
     parts = ig.generate()
     # Format code as string
-    body = format_indented_lines(parts.cs_format(ir.precision), 1)
+    CF = CFormatter(scalar_type)
+    body = CF.c_format(parts)
+
     return body
 
 
@@ -97,7 +97,7 @@ def compile_form(form: ufl.Form, name: str,
         parameters = get_options()
 
     # Stage 1: analysis
-    analysis = analyze_ufl_objects([form], parameters)
+    analysis = analyze_ufl_objects([form], scalar_type=parameters["scalar_type"])
 
     # Stage 2: intermediate representation
     ir = compute_ir(analysis, {}, " ", parameters, visualise)
@@ -121,7 +121,7 @@ def compile_form(form: ufl.Form, name: str,
     settings = {"scalar_type": scalar_type, "geom_type": geom_type}
     arguments = _arguments.format(**settings)
     signature = "inline void " + name + arguments
-    body = compute_integral_body(integral_ir, backend)
+    body = compute_integral_body(integral_ir, backend, scalar_type)
     code = signature + " {\n" + body + "\n}\n"
 
     return code
@@ -138,16 +138,16 @@ def generate_code(action, scalar_type, global_size, batch_size):
     if action:
         code = compile_form(problem.L, "kernel", parameters)
         num_coefficients = analyze_ufl_objects(
-            [problem.L], parameters).form_data[0].num_coefficients
+            [problem.L], scalar_type=scalar_type).form_data[0].num_coefficients
         rank = 1
     else:
         code = compile_form(problem.a, "kernel", parameters)
         num_coefficients = analyze_ufl_objects(
-            [problem.a], parameters).form_data[0].num_coefficients
+            [problem.a], scalar_type=scalar_type).form_data[0].num_coefficients
         rank = 2
 
-    element = convert_element(problem.element)
-    num_nodes = element.cell().num_vertices()
+    element = problem.element
+    num_nodes = element.cell.num_vertices()
     geom_type = scalar_type.replace(' _Complex', '')
 
     if batch_size > 1:

@@ -1,13 +1,15 @@
 from ufl import *
+import basix.ufl
 
-element = FiniteElement("Lagrange", $cell, $degree)
-mesh = Mesh(VectorElement("Lagrange", $cell, 1))
+element = basix.ufl.element("Lagrange", basix.CellType.$cell, $degree)
+mesh_element = basix.ufl.element("Lagrange", basix.CellType.$cell, 1, shape=(3,))
+mesh = Mesh(mesh_element)
 
 V = FunctionSpace(mesh, element)
 u = TrialFunction(V)
 v = TestFunction(V)
 
-W = FunctionSpace(mesh, FiniteElement("Lagrange", $cell, 1))
+W = FunctionSpace(mesh, basix.ufl.element("Lagrange", basix.CellType.$cell, 1))
 k = Coefficient(W)
 
 a = k*inner(grad(u), grad(v))*dx
